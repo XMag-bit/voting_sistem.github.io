@@ -1,8 +1,6 @@
 # Voting-Sistem-Pemilihan-Ketua-OSIS-Baru
 Voting Sistem Pemilihan Ketua OSIS Baru
 
-Oke, saya buatin contoh **README.md** untuk proyek GitHub website voting OSIS ini. Formatnya jelas, formal, dan mudah dipahami biar orang lain bisa langsung pakai.
-
 ---
 
 # 🗳️ Website Voting OSIS
@@ -89,5 +87,3 @@ Proyek ini bebas digunakan untuk keperluan sekolah.
 Lisensi: **MIT License**
 
 ---
-
-Mau saya bikin **README.md versi full markdown + badge GitHub** (misalnya status build, license, star repo) biar lebih profesional juga?
