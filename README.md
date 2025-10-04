@@ -56,12 +56,6 @@ Website sederhana untuk melakukan **pemilihan ketua & wakil OSIS** secara online
 
 ---
 
-## 📸 Demo Screenshot
-
-*(Tambahkan screenshot halaman pendaftaran, voting, dan hasil di sini)*
-
----
-
 ## 🔧 Teknologi yang Digunakan
 
 * **HTML5**
