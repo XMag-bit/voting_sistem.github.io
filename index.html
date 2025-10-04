@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pemilihan Ketua OSIS</title>
+  <title>Pendaftaran Calon Ketua & Wakil Ketua OSIS</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f4f6f9, #e8ecf3);
       margin: 0;
       padding: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
@@ -40,152 +40,77 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px;
-      padding: 30px;
+      gap: 50px;
+      padding: 40px;
       flex-wrap: wrap;
     }
 
     .card {
       background: white;
-      border-radius: 14px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      padding: 25px;
-      width: 340px;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 420px;
       text-align: center;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
     }
 
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 15px;
+      margin-bottom: 20px;
     }
 
     .input-group input {
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
       text-align: center;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .card input[type="file"] {
-      margin: 10px 0;
+      margin: 15px 0;
     }
 
     .card img {
-      width: 230px;
-      height: 230px;
+      width: 280px;
+      height: 280px;
       object-fit: cover;
-      margin: 12px 0;
-      border-radius: 10px;
-      border: 3px solid #002b5c;
+      margin: 15px 0;
+      border-radius: 14px;
+      border: 4px solid #002b5c;
     }
 
-    .votes {
-      font-weight: bold;
-      margin: 12px 0;
-      font-size: 18px;
-      color: #002b5c;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .buttons button {
-      background-color: #002b5c;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    .buttons button:hover {
-    transform: scale(1.05);
-    }
-
-    /* tombol tambah */
-    .buttons button:first-child:hover {
-    background-color: green;
-    }
-
-    /* tombol kurang */
-    .buttons button:last-child:hover {
-    background-color: red;
-    }
-
-    .hasil-btn {
+    .next-btn {
       display: block;
-      margin: 25px auto;
+      margin: 30px auto 50px auto;
       background: #0056b3;
       color: white;
       border: none;
-      padding: 15px 28px;
-      border-radius: 10px;
+      padding: 18px 40px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 22px;
       font-weight: bold;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .hasil-btn:hover {
+    .next-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-    }
-
-    .pemenang {
-      text-align: center;
-      background: white;
-      padding: 40px;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      width: 400px;
-      margin: auto;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-
-    .pemenang h2 {
-      color: #002b5c;
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-    .pemenang img {
-      width: 280px;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 4px solid #007bff;
-      margin-bottom: 20px;
-    }
-
-    .pemenang h3 {
-      font-size: 20px;
-      margin: 5px 0;
-      color: #333;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <header>Pemilihan Ketua & Wakil Ketua OSIS</header>
+  <header>Pendaftaran Calon Ketua & Wakil Ketua OSIS</header>
 
   <div class="container" id="container">
     <!-- Card 1 -->
@@ -195,12 +120,7 @@
         <input type="text" placeholder="Nama Wakil Ketua">
       </div>
       <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/120" alt="Foto Calon">
-      <div class="votes">Suara: 0</div>
-      <div class="buttons">
-        <button onclick="vote(this, 1)">⬆</button>
-        <button onclick="vote(this, -1)">⬇</button>
-      </div>
+      <img src="https://via.placeholder.com/280" alt="Foto Calon">
     </div>
 
     <!-- Card 2 -->
@@ -210,12 +130,7 @@
         <input type="text" placeholder="Nama Wakil Ketua">
       </div>
       <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/120" alt="Foto Calon">
-      <div class="votes">Suara: 0</div>
-      <div class="buttons">
-        <button onclick="vote(this, 1)">⬆</button>
-        <button onclick="vote(this, -1)">⬇</button>
-      </div>
+      <img src="https://via.placeholder.com/280" alt="Foto Calon">
     </div>
 
     <!-- Card 3 -->
@@ -225,146 +140,58 @@
         <input type="text" placeholder="Nama Wakil Ketua">
       </div>
       <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/120" alt="Foto Calon">
-      <div class="votes">Suara: 0</div>
-      <div class="buttons">
-        <button onclick="vote(this, 1)">⬆</button>
-        <button onclick="vote(this, -1)">⬇</button>
-      </div>
+      <img src="https://via.placeholder.com/280" alt="Foto Calon">
     </div>
   </div>
 
-  <!-- Tombol hasil -->
-  <button class="hasil-btn" id="hasilBtn" onclick="toggleHasil()">Lihat Hasil</button>
+  <!-- Tombol Next -->
+  <button class="next-btn" onclick="goToVoting()">Next</button>
 
   <footer>© 2025 OSIS Tunas Daud Mataram</footer>
 
 <script>
-  let modeHasil = false;
+  // fungsi untuk menampilkan preview langsung di card
+  function previewImage(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const card = input.closest(".card");
+        const img = card.querySelector("img");
+        img.src = e.target.result; // tampilkan hasil upload
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
-  function saveInputs() {
-    const allCards = document.querySelectorAll(".card");
+  // simpan data ke localStorage
+  async function saveCandidates() {
+    const cards = document.querySelectorAll(".card");
     const data = [];
-    allCards.forEach((card, index) => {
-      const ketua = card.querySelector("input[placeholder='Nama Ketua']").value;
-      const wakil = card.querySelector("input[placeholder='Nama Wakil Ketua']").value;
-      const img = card.querySelector("img").src;
-      const suara = card.querySelector(".votes").textContent.replace("Suara: ", "");
-      data.push({ ketua, wakil, img, suara });
-    });
+
+    for (const card of cards) {
+      const inputs = card.querySelectorAll("input[type='text']");
+      const ketua = inputs[0]?.value || "";
+      const wakil = inputs[1]?.value || "";
+
+      const imgSrc = card.querySelector("img")?.src || "";
+
+      data.push({ ketua, wakil, img: imgSrc, suara: 0 });
+    }
+
     localStorage.setItem("osisCandidates", JSON.stringify(data));
   }
 
-  function loadInputs() {
-    const saved = localStorage.getItem("osisCandidates");
-    if (!saved) return [];
-    return JSON.parse(saved);
+  async function goToVoting() {
+  try {
+    await saveCandidates();
+    // pindah ke halaman vote dalam 1 file (misalnya "pemilihan.html")
+    window.location.href = "vote.html";
+  } catch (err) {
+    console.error("Error saat menyimpan:", err);
+    alert("Terjadi kesalahan, coba lagi.");
   }
-
-  function renderCards() {
-    const data = loadInputs();
-    const container = document.getElementById("container");
-    container.innerHTML = "";
-
-    for (let i = 0; i < 3; i++) {
-      const c = data[i] || { ketua: "", wakil: "", img: "https://via.placeholder.com/120", suara: 0 };
-
-      container.innerHTML += `
-        <div class="card">
-          <div class="input-group">
-            <input type="text" placeholder="Nama Ketua" value="${c.ketua}">
-            <input type="text" placeholder="Nama Wakil Ketua" value="${c.wakil}">
-          </div>
-          <input type="file" accept="image/*" onchange="previewImage(this, ${i})">
-          <img src="${c.img}" alt="Foto Calon">
-          <div class="votes">Suara: ${c.suara}</div>
-          <div class="buttons">
-            <button onclick="vote(this, 1)">⬆</button>
-            <button onclick="vote(this, -1)">⬇</button>
-          </div>
-        </div>
-      `;
-    }
   }
-
-  function previewImage(input, index) {
-    const file = input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        input.nextElementSibling.src = e.target.result;
-        saveInputs();
-      }
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function vote(button, value) {
-    const card = button.closest(".card");
-    const votes = card.querySelector(".votes");
-    let current = parseInt(votes.textContent.replace("Suara: ", ""));
-    current += value;
-    if (current < 0) current = 0;
-    votes.textContent = "Suara: " + current;
-    saveInputs();
-  }
-
-  function toggleHasil() {
-    const container = document.getElementById("container");
-    const tombol = document.getElementById("hasilBtn");
-
-    if (!modeHasil) {
-      const cards = container.querySelectorAll(".card");
-      let maxVotes = -1;
-      let pemenang = null;
-
-      cards.forEach(card => {
-        const suara = parseInt(card.querySelector(".votes").textContent.replace("Suara: ", ""));
-        if (suara > maxVotes) {
-          maxVotes = suara;
-          pemenang = card;
-        }
-      });
-
-      if (pemenang && maxVotes > 0) {
-        const ketua = pemenang.querySelector("input[placeholder='Nama Ketua']").value || "Belum diisi";
-        const wakil = pemenang.querySelector("input[placeholder='Nama Wakil Ketua']").value || "Belum diisi";
-        const foto = pemenang.querySelector("img").src;
-
-        container.innerHTML = `
-          <div class="pemenang">
-            <h2>Pemenang Pemilihan</h2>
-            <img src="${foto}" alt="Foto Pemenang">
-            <h3>Ketua: ${ketua}</h3>
-            <h3>Wakil: ${wakil}</h3>
-            <p>Total Suara: ${maxVotes}</p>
-          </div>
-        `;
-      } else {
-        container.innerHTML = "<h2 style='color:#002b5c;text-align:center'>Belum ada suara yang masuk.</h2>";
-      }
-
-      tombol.textContent = "Kembali";
-      modeHasil = true;
-    } else {
-      renderCards(); // tampilkan kembali semua card
-      tombol.textContent = "Lihat Hasil";
-      modeHasil = false;
-    }
-  }
-
-  document.addEventListener("input", function(e) {
-    if (e.target.matches("input[placeholder='Nama Ketua'], input[placeholder='Nama Wakil Ketua']")) {
-      saveInputs();
-    }
-  });
-
-  window.onload = function() {
-    renderCards();
-  };
 </script>
-
-
 
 </body>
 </html>

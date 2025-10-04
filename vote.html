@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemilihan Ketua OSIS</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f4f6f9, #e8ecf3);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #002b5c;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      background: #002b5c;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 16px;
+      margin-top: auto;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      padding: 30px;
+      width: 380px;
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .nomor {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0056b3;
+      margin-bottom: 10px;
+    }
+
+    .card img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      margin: 15px 0;
+      border-radius: 12px;
+      border: 3px solid #002b5c;
+    }
+
+    .nama {
+      font-size: 18px;
+      margin: 6px 0;
+      color: #002b5c;
+    }
+
+    .votes {
+      font-weight: bold;
+      margin: 12px 0;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .buttons button {
+      background-color: #002b5c;
+      color: white;
+      border: none;
+      padding: 15px 45px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.1);
+    }
+
+    .buttons button:first-child:hover { background-color: green; }
+    .buttons button:last-child:hover { background-color: red; }
+
+    .hasil-btn {
+      display: inline-block;
+      margin: 25px 10px;
+      background: #0056b3;
+      color: white;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hasil-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    }
+
+    .pemenang, .seri-container {
+      text-align: center;
+      background: white;
+      padding: 12px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      width: 450px;
+      margin-left: 50px;
+      margin-right: 50px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .seri-title {
+      width: 100%;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      color: #c0392b;
+      margin-bottom: 20px;
+    }
+
+    .pemenang h2 {
+      color: #002b5c;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .pemenang img, .seri-container img {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 4px solid #007bff;
+      margin-bottom: 15px;
+    }
+
+    .pemenang h3, .seri-container h3 {
+      font-size: 20px;
+      margin: 5px 0;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .tombol-wrapper {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Pemilihan Ketua & Wakil Ketua OSIS</header>
+
+  <div class="container" id="container"></div>
+
+  <div class="tombol-wrapper">
+    <button class="hasil-btn" id="hasilBtn" onclick="toggleHasil()">Lihat Hasil</button>
+    <button class="hasil-btn" id="ulangBtn" style="display:none;" onclick="pemilihanUlang()">Pemilihan Ulang</button>
+  </div>
+
+  <footer>© 2025 OSIS Tunas Daud Mataram</footer>
+
+<script>
+  let modeHasil = false;
+  let kandidatSeri = [];
+
+  function loadCandidates() {
+    const saved = localStorage.getItem("osisCandidates");
+    let data = saved ? JSON.parse(saved) : [];
+    data.forEach(c => {
+      if (c.eligible === undefined) c.eligible = true; // default eligible
+    });
+    return data;
+  }
+
+  function renderCards(candidates = null) {
+    const data = candidates || loadCandidates();
+    const container = document.getElementById("container");
+    container.innerHTML = "";
+    data.filter(c => c.eligible).forEach((c, index) => {
+      container.innerHTML += `
+        <div class="card">
+          <div class="nomor">Calon ${index + 1}</div>
+          <img src="${c.img}" alt="Foto Calon">
+          <div class="nama"><b>Ketua:</b><br>${c.ketua}</div>
+          <div class="nama"><b>Wakil:</b><br>${c.wakil}</div>
+          <div class="votes">Suara: ${c.suara}</div>
+          <div class="buttons">
+            <button onclick="vote(${index}, 1)">⬆</button>
+            <button onclick="vote(${index}, -1)">⬇</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function vote(index, value) {
+    let data = loadCandidates();
+    let eligibleData = data.filter(c => c.eligible);
+    if (!eligibleData[index]) return;
+    eligibleData[index].suara = (eligibleData[index].suara || 0) + value;
+    if (eligibleData[index].suara < 0) eligibleData[index].suara = 0;
+    localStorage.setItem("osisCandidates", JSON.stringify(data));
+    renderCards();
+  }
+
+  function toggleHasil() {
+    const container = document.getElementById("container");
+    const tombol = document.getElementById("hasilBtn");
+    const ulangBtn = document.getElementById("ulangBtn");
+    const data = loadCandidates().filter(c => c.eligible);
+
+    if (!modeHasil) {
+      if (data.length === 0) {
+        container.innerHTML = "<h2 style='color:#002b5c;text-align:center'>Belum ada calon terdaftar.</h2>";
+        return;
+      }
+
+      // cari suara tertinggi hanya dari kandidat eligible
+      let maxVotes = Math.max(...data.map(c => c.suara || 0));
+      kandidatSeri = data.filter(c => c.suara === maxVotes);
+
+      if (kandidatSeri.length > 1) {
+        // SERI antar kandidat eligible
+        container.innerHTML = `<div class="seri-title">⚠ Seri – Pemilihan Ulang Diperlukan ⚠</div>`;
+        kandidatSeri.forEach((c, i) => {
+          container.innerHTML += `
+            <div class="seri-container">
+              <div class="nomor">Calon ${i + 1}</div>
+              <img src="${c.img}" alt="Foto Calon">
+              <h3><b>Ketua:</b><br>${c.ketua}</h3>
+              <h3><b>Wakil:</b><br>${c.wakil}</h3>
+              <p>Total Suara: ${c.suara}</p>
+            </div>
+          `;
+        });
+        ulangBtn.style.display = "inline-block";
+      } else {
+        // PEMENANG
+        let winner = kandidatSeri[0];
+        container.innerHTML = `
+          <div class="pemenang">
+            <h2>Pemenang Pemilihan</h2>
+            <div class="nomor">Calon</div>
+            <img src="${winner.img}" alt="Foto Pemenang">
+            <h3><b>Ketua:</b><br>${winner.ketua}</h3>
+            <h3><b>Wakil:</b><br>${winner.wakil}</h3>
+            <p>Total Suara: ${winner.suara}</p>
+          </div>
+        `;
+        ulangBtn.style.display = "none";
+      }
+
+      tombol.textContent = "Kembali";
+      modeHasil = true;
+    } else {
+      renderCards();
+      tombol.textContent = "Lihat Hasil";
+      ulangBtn.style.display = "none";
+      modeHasil = false;
+    }
+  }
+
+  function pemilihanUlang() {
+    let data = loadCandidates();
+
+    // hanya kandidat seri yang tetap eligible
+    data.forEach(c => {
+      if (kandidatSeri.some(s => s.ketua === c.ketua && s.wakil === c.wakil)) {
+        c.suara = 0;   // reset suara
+        c.eligible = true;
+      } else {
+        c.eligible = false; // didiskualifikasi permanen
+      }
+    });
+
+    localStorage.setItem("osisCandidates", JSON.stringify(data));
+    renderCards();
+    document.getElementById("hasilBtn").textContent = "Lihat Hasil";
+    document.getElementById("ulangBtn").style.display = "none";
+    modeHasil = false;
+  }
+
+  window.onload = function() { renderCards(); };
+</script>
+
+</body>
+</html>
