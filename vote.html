@@ -193,6 +193,7 @@
   <div class="tombol-wrapper">
     <button class="hasil-btn" id="hasilBtn" onclick="toggleHasil()">Lihat Hasil</button>
     <button class="hasil-btn" id="ulangBtn" style="display:none;" onclick="pemilihanUlang()">Pemilihan Ulang</button>
+    <button class="hasil-btn" id="kembaliBtn" style="display:none;" onclick="kembaliKeIndex()">Kembali ke Halaman Utama</button>
   </div>
 
   <footer>© 2025 OSIS Tunas Daud Mataram</footer>
@@ -205,7 +206,7 @@
     const saved = localStorage.getItem("osisCandidates");
     let data = saved ? JSON.parse(saved) : [];
     data.forEach(c => {
-      if (c.eligible === undefined) c.eligible = true; // default eligible
+      if (c.eligible === undefined) c.eligible = true;
     });
     return data;
   }
@@ -245,6 +246,7 @@
     const container = document.getElementById("container");
     const tombol = document.getElementById("hasilBtn");
     const ulangBtn = document.getElementById("ulangBtn");
+    const kembaliBtn = document.getElementById("kembaliBtn");
     const data = loadCandidates().filter(c => c.eligible);
 
     if (!modeHasil) {
@@ -253,12 +255,10 @@
         return;
       }
 
-      // cari suara tertinggi hanya dari kandidat eligible
       let maxVotes = Math.max(...data.map(c => c.suara || 0));
       kandidatSeri = data.filter(c => c.suara === maxVotes);
 
       if (kandidatSeri.length > 1) {
-        // SERI antar kandidat eligible
         container.innerHTML = `<div class="seri-title">⚠ Seri – Pemilihan Ulang Diperlukan ⚠</div>`;
         kandidatSeri.forEach((c, i) => {
           container.innerHTML += `
@@ -272,8 +272,8 @@
           `;
         });
         ulangBtn.style.display = "inline-block";
+        kembaliBtn.style.display = "none";
       } else {
-        // PEMENANG
         let winner = kandidatSeri[0];
         container.innerHTML = `
           <div class="pemenang">
@@ -286,6 +286,7 @@
           </div>
         `;
         ulangBtn.style.display = "none";
+        kembaliBtn.style.display = "inline-block"; // tampilkan tombol kembali
       }
 
       tombol.textContent = "Kembali";
@@ -294,28 +295,31 @@
       renderCards();
       tombol.textContent = "Lihat Hasil";
       ulangBtn.style.display = "none";
+      document.getElementById("kembaliBtn").style.display = "none";
       modeHasil = false;
     }
   }
 
   function pemilihanUlang() {
     let data = loadCandidates();
-
-    // hanya kandidat seri yang tetap eligible
     data.forEach(c => {
       if (kandidatSeri.some(s => s.ketua === c.ketua && s.wakil === c.wakil)) {
-        c.suara = 0;   // reset suara
+        c.suara = 0;
         c.eligible = true;
       } else {
-        c.eligible = false; // didiskualifikasi permanen
+        c.eligible = false;
       }
     });
-
     localStorage.setItem("osisCandidates", JSON.stringify(data));
     renderCards();
     document.getElementById("hasilBtn").textContent = "Lihat Hasil";
     document.getElementById("ulangBtn").style.display = "none";
+    document.getElementById("kembaliBtn").style.display = "none";
     modeHasil = false;
+  }
+
+  function kembaliKeIndex() {
+    window.location.href = "index.html";
   }
 
   window.onload = function() { renderCards(); };

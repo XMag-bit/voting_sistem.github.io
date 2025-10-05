@@ -39,20 +39,21 @@
       flex: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 50px;
-      padding: 40px;
+      align-items: flex-start;
+      gap: 40px;
       flex-wrap: wrap;
+      padding: 40px;
     }
 
     .card {
       background: white;
       border-radius: 18px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      padding: 40px;
-      width: 420px;
+      padding: 30px;
+      width: 380px;
       text-align: center;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
     }
 
     .card:hover {
@@ -60,15 +61,34 @@
       box-shadow: 0 12px 25px rgba(0,0,0,0.25);
     }
 
+    .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+
+    .card:hover .remove-btn {
+      display: block;
+    }
+
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 15px;
     }
 
     .input-group input {
-      padding: 14px;
+      padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       text-align: center;
@@ -76,33 +96,37 @@
     }
 
     .card input[type="file"] {
-      margin: 15px 0;
+      margin: 10px 0;
     }
 
     .card img {
-      width: 280px;
-      height: 280px;
+      width: 250px;
+      height: 250px;
       object-fit: cover;
-      margin: 15px 0;
-      border-radius: 14px;
+      margin: 10px 0;
+      border-radius: 12px;
       border: 4px solid #002b5c;
     }
 
-    .next-btn {
-      display: block;
-      margin: 30px auto 50px auto;
+    .btn-wrapper {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .add-btn, .next-btn {
       background: #0056b3;
       color: white;
       border: none;
-      padding: 18px 40px;
-      border-radius: 12px;
+      padding: 14px 35px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: bold;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin: 10px;
     }
 
-    .next-btn:hover {
+    .add-btn:hover, .next-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 14px rgba(0,0,0,0.25);
     }
@@ -112,85 +136,93 @@
 
   <header>Pendaftaran Calon Ketua & Wakil Ketua OSIS</header>
 
-  <div class="container" id="container">
-    <!-- Card 1 -->
-    <div class="card">
-      <div class="input-group">
-        <input type="text" placeholder="Nama Ketua">
-        <input type="text" placeholder="Nama Wakil Ketua">
-      </div>
-      <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/280" alt="Foto Calon">
-    </div>
-
-    <!-- Card 2 -->
-    <div class="card">
-      <div class="input-group">
-        <input type="text" placeholder="Nama Ketua">
-        <input type="text" placeholder="Nama Wakil Ketua">
-      </div>
-      <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/280" alt="Foto Calon">
-    </div>
-
-    <!-- Card 3 -->
-    <div class="card">
-      <div class="input-group">
-        <input type="text" placeholder="Nama Ketua">
-        <input type="text" placeholder="Nama Wakil Ketua">
-      </div>
-      <input type="file" accept="image/*" onchange="previewImage(this)">
-      <img src="https://via.placeholder.com/280" alt="Foto Calon">
-    </div>
+  <div class="btn-wrapper">
+    <button class="add-btn" onclick="addCard()">+ Tambah Calon</button>
   </div>
 
-  <!-- Tombol Next -->
-  <button class="next-btn" onclick="goToVoting()">Next</button>
+  <div class="container" id="container"></div>
+
+  <div class="btn-wrapper">
+    <button class="next-btn" onclick="goToVoting()">Next</button>
+  </div>
 
   <footer>© 2025 OSIS Tunas Daud Mataram</footer>
 
 <script>
-  // fungsi untuk menampilkan preview langsung di card
+  const container = document.getElementById("container");
+
+  // Template untuk card calon
+  function createCard() {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    card.innerHTML = `
+      <button class="remove-btn" onclick="removeCard(this)">×</button>
+      <div class="input-group">
+        <input type="text" placeholder="Nama Ketua">
+        <input type="text" placeholder="Nama Wakil Ketua">
+      </div>
+      <input type="file" accept="image/*" onchange="previewImage(this)">
+      <img src="https://via.placeholder.com/250" alt="Foto Calon">
+    `;
+    container.appendChild(card);
+  }
+
+  // Hapus card calon
+  function removeCard(btn) {
+    const card = btn.closest(".card");
+    card.remove();
+  }
+
+  // Tambah card baru
+  function addCard() {
+    createCard();
+  }
+
+  // Preview foto langsung di card
   function previewImage(input) {
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = e => {
         const card = input.closest(".card");
         const img = card.querySelector("img");
-        img.src = e.target.result; // tampilkan hasil upload
+        img.src = e.target.result;
       };
       reader.readAsDataURL(input.files[0]);
     }
   }
 
-  // simpan data ke localStorage
+  // Simpan ke localStorage
   async function saveCandidates() {
     const cards = document.querySelectorAll(".card");
     const data = [];
 
     for (const card of cards) {
       const inputs = card.querySelectorAll("input[type='text']");
-      const ketua = inputs[0]?.value || "";
-      const wakil = inputs[1]?.value || "";
-
+      const ketua = inputs[0]?.value.trim() || "";
+      const wakil = inputs[1]?.value.trim() || "";
       const imgSrc = card.querySelector("img")?.src || "";
+
+      if (!ketua || !wakil) continue; // skip calon kosong
 
       data.push({ ketua, wakil, img: imgSrc, suara: 0 });
     }
 
     localStorage.setItem("osisCandidates", JSON.stringify(data));
+    return data.length;
   }
 
   async function goToVoting() {
-  try {
-    await saveCandidates();
-    // pindah ke halaman vote dalam 1 file (misalnya "pemilihan.html")
+    const count = await saveCandidates();
+    if (count < 1) {
+      alert("Minimal 1 calon harus terdaftar.");
+      return;
+    }
     window.location.href = "vote.html";
-  } catch (err) {
-    console.error("Error saat menyimpan:", err);
-    alert("Terjadi kesalahan, coba lagi.");
   }
-  }
+
+  // buat default 3 calon
+  for (let i = 0; i < 3; i++) createCard();
 </script>
 
 </body>
