@@ -45,18 +45,16 @@ Website sederhana untuk melakukan **pemilihan ketua & wakil OSIS** secara online
 
 ## 🚀 Cara Menjalankan
 
-1. **Clone repositori ini**:
+### 🟢 Opsi 1 — Langsung dari GitHub Pages
+Kunjungi tautan berikut untuk menjalankan website tanpa perlu mengunduh apa pun:  
+👉 **[https://xmag-bit.github.io/voting_sistem.github.io/](https://xmag-bit.github.io/voting_sistem.github.io/)**
 
-   ```bash
-   git clone https://github.com/username/osis-voting.git
-   ```
-2. **Masuk ke folder proyek**:
+---
 
+### 🧩 Opsi 2 — Menjalankan di Komputer Sendiri
+1. **Clone repositori ini ke perangkatmu**
    ```bash
-   cd osis-voting
-   ```
-3. **Buka file `index.html` di browser**
-   Tidak perlu server tambahan, cukup buka di Chrome/Edge/Firefox.
+   git clone https://github.com/XMag-bit/voting_sistem.github.io.git
 
 ---
 
