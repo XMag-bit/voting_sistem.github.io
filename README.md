@@ -9,6 +9,10 @@ Website sederhana untuk melakukan **pemilihan ketua & wakil OSIS** secara online
 
 ---
 
+🌐 **Live Demo:** [Klik di sini untuk mencoba](https://xmag-bit.github.io/voting_sistem.github.io/)
+
+---
+
 ## ✨ Fitur
 
 * 📌 **Pendaftaran Kandidat**
